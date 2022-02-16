@@ -1,9 +1,19 @@
 {
-  "presets": ["next/babel"],
+  "presets": ["next/babel", [
+    "@babel/preset-env",
+      {
+        "targets": {
+          "chrome": "49",
+          "ios": "9.1"
+        }
+      }
+  ]],
   "plugins": [
     [
-      "import", {
-        "libraryName": "antd"
+      "import", { 
+        "libraryName": "antd-mobile", 
+        "libraryDirectory": "es/components", 
+        "style": false
       }
     ]
   ]

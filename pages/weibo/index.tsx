@@ -1,9 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { List } from "antd";
-
-const data = [{ label: "恶魔奶爸", uid: 2492465520 }];
+import { List } from "antd-mobile";
+import { UnorderedListOutline } from "antd-mobile-icons";
 
 const Weibo: NextPage = () => {
   return (
@@ -15,17 +14,13 @@ const Weibo: NextPage = () => {
       </Head>
 
       <main>
-        <List
-          bordered
-          dataSource={data}
-          renderItem={(item) => (
-            <List.Item>
-              <Link href={`/weibo/${item.uid}`} as={`/weibo/${item.uid}`}>
-                <a>{item.label}</a>
-              </Link>
-            </List.Item>
-          )}
-        />
+        <List header="列表">
+          <List.Item prefix={<UnorderedListOutline />}>
+            <Link href={`/weibo/2492465520`} as={`/weibo/2492465520`}>
+              <a>恶魔奶爸</a>
+            </Link>
+          </List.Item>
+        </List>
       </main>
     </div>
   );

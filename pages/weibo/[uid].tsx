@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { List } from "antd";
 
 const Weibo: NextPage<{ data: any }> = ({ data }) => {
   const router = useRouter();
