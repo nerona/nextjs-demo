@@ -41,4 +41,10 @@ export async function getStaticProps() {
   };
 }
 
+export async function getStaticPaths() {
+  return {
+    paths: ["/weibo/*"],
+    fallback: true,
+  };
+}
 export default Weibo;
