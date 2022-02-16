@@ -6,7 +6,6 @@ import { List, NoticeBar } from "antd-mobile";
 const Weibo: NextPage<{ data: any }> = ({ data = [] }) => {
   const router = useRouter();
   console.log(router);
-  console.log(data);
 
   return (
     <div>
@@ -39,13 +38,6 @@ export async function getStaticProps() {
     props: {
       data: result,
     },
-  };
-}
-
-export async function getStaticPaths() {
-  return {
-    paths: ["/weibo/*"],
-    fallback: true,
   };
 }
 

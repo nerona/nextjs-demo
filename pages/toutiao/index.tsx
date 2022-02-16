@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import { InfiniteScroll, List, NoticeBar } from "antd-mobile";
 import { UnorderedListOutline } from "antd-mobile-icons";
@@ -13,11 +13,12 @@ const Toutiao: NextPage<{ data: any; joke: any }> = ({
 
   const loadMore = async () => {
     const res = await fetch(
-      `http://api.tianapi.com/topnews/index?key=80e4fa9d0221495137dfd51e1bb0db98&page=${
+      `http://api.tianapi.com/topnews/index?key=80e4fa9d0221495137dfd51e1bb0db98&num=20&page=${
         page + 1
       }`,
       {
         method: "GET",
+        mode: "cors",
       }
     );
     const data = await res.json();
@@ -40,10 +41,7 @@ const Toutiao: NextPage<{ data: any; joke: any }> = ({
       <main>
         <List>
           {list.map((item: any) => (
-            <List.Item
-              key={item.id}
-              prefix={<UnorderedListOutline />}
-              extra={item.source}>
+            <List.Item key={item.id} prefix={<UnorderedListOutline />}>
               <a>{item.title}</a>
             </List.Item>
           ))}
@@ -57,7 +55,7 @@ const Toutiao: NextPage<{ data: any; joke: any }> = ({
 
 export async function getStaticProps() {
   const res = await fetch(
-    `http://api.tianapi.com/topnews/index?key=80e4fa9d0221495137dfd51e1bb0db98`,
+    `http://api.tianapi.com/topnews/index?key=80e4fa9d0221495137dfd51e1bb0db98&num=20`,
     {
       method: "GET",
     }
