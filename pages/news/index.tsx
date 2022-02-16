@@ -42,7 +42,7 @@ const News: NextPage<{ data: any; joke: any }> = ({ data = [], joke = [] }) => {
           ))}
         </List>
 
-        <InfiniteScroll loadMore={loadMore} hasMore={true} />
+        <InfiniteScroll loadMore={loadMore} hasMore={offset <= 160} />
       </main>
     </div>
   );
