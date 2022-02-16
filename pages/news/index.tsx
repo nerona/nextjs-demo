@@ -1,16 +1,35 @@
 import type { NextPage } from "next";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Head from "next/head";
 import { InfiniteScroll, List, NoticeBar } from "antd-mobile";
 import { UnorderedListOutline } from "antd-mobile-icons";
 
+const types = [
+  "24hours",
+  "ent",
+  "world",
+  "tech",
+  "finance",
+  "auto",
+  "fashion",
+  "games",
+  "emotion",
+  "digi",
+  "baby",
+  "edu",
+  "lifes",
+  "kepu",
+];
+const LIMIT = 180;
+
 const News: NextPage<{ data: any; joke: any }> = ({ data = [], joke = [] }) => {
   const [offset, setOffset] = useState(20);
+  const [type, setType] = useState(0);
   const [list, setList] = useState<any[]>(data);
 
   const loadMore = useCallback(async () => {
     const res = await fetch(
-      `https://i.news.qq.com/trpc.qqnews_web.kv_srv.kv_srv_http_proxy/list?sub_srv_id=24hours&srv_id=pc&offset=${offset}&limit=20&strategy=1&ext={%22pool%22:[%22top%22],%22is_filter%22:7,%22check_type%22:true}`,
+      `https://i.news.qq.com/trpc.qqnews_web.kv_srv.kv_srv_http_proxy/list?sub_srv_id=${types[type]}&srv_id=pc&offset=${offset}&limit=20&strategy=1&ext={%22pool%22:[%22top%22],%22is_filter%22:7,%22check_type%22:true}`,
       {
         method: "GET",
         mode: "cors",
@@ -21,7 +40,14 @@ const News: NextPage<{ data: any; joke: any }> = ({ data = [], joke = [] }) => {
       setList([...list, ...(result.data.list || [])]);
       setOffset(offset + 20);
     }
-  }, [offset, list]);
+  }, [offset, list, type]);
+
+  useEffect(() => {
+    if (offset === LIMIT) {
+      setType(type + 1);
+      setOffset(0);
+    }
+  }, [offset, type]);
 
   return (
     <div>
@@ -42,7 +68,10 @@ const News: NextPage<{ data: any; joke: any }> = ({ data = [], joke = [] }) => {
           ))}
         </List>
 
-        <InfiniteScroll loadMore={loadMore} hasMore={offset <= 160} />
+        <InfiniteScroll
+          loadMore={loadMore}
+          hasMore={offset < LIMIT && type < types.length - 1}
+        />
       </main>
     </div>
   );
