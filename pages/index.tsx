@@ -1,10 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 import { List, NoticeBar } from "antd-mobile";
 import { UnorderedListOutline } from "antd-mobile-icons";
 
-const Home: NextPage<{ data: any }> = ({ data = [] }) => {
+const Home: NextPage<{ data: any; photo: string }> = ({ data = [], photo }) => {
   return (
     <div>
       <Head>
@@ -13,9 +14,18 @@ const Home: NextPage<{ data: any }> = ({ data = [] }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <NoticeBar content={data[0]?.content} color="info" />
+      <NoticeBar
+        content={data[0]?.content}
+        color="info"
+        style={{
+          position: "relative",
+          zIndex: 9,
+        }}
+      />
 
       <main>
+        <Image src={photo} alt="Picture of the author" layout="fill" />
+
         <List>
           <List.Item prefix={<UnorderedListOutline />}>
             <Link href={`/news`} as={`/news`}>
@@ -35,16 +45,24 @@ const Home: NextPage<{ data: any }> = ({ data = [] }) => {
 
 export async function getStaticProps() {
   const res = await fetch(
-    `http://api.tianapi.com/saylove/index?key=80e4fa9d0221495137dfd51e1bb0db98&num=10`,
-    {
-      method: "GET",
-    }
+    `http://api.tianapi.com/saylove/index?key=80e4fa9d0221495137dfd51e1bb0db98&num=10`
   );
   const data = await res.json();
+
+  const bingRes = await fetch(
+    `https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN`
+  );
+  const bing = await bingRes.json();
+
+  let photo = "https://cn.bing.com";
+  if (bing && bing.images) {
+    photo += bing.images[0]?.url ?? "";
+  }
 
   return {
     props: {
       data: data?.newslist || [],
+      photo,
     },
   };
 }
