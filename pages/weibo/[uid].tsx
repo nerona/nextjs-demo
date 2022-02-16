@@ -21,9 +21,17 @@ const Weibo: NextPage<{ data: any }> = ({ data }) => {
 };
 
 export async function getStaticProps() {
+  const res = await fetch(
+    `http://api.tianapi.com/auto/index?key=80e4fa9d0221495137dfd51e1bb0db98&num=10`,
+    {
+      method: "GET",
+    }
+  );
+  const data = await res.json();
+
   return {
     props: {
-      data: [],
+      data,
     },
   };
 }
