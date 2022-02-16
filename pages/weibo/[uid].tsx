@@ -30,13 +30,10 @@ export async function getStaticProps() {
     }
   );
   const data = await res.json();
-  let result: any[] = [];
-  if (data.code === 200) {
-    result = data.newslist;
-  }
+
   return {
     props: {
-      data: result,
+      data: data?.newslist || [],
     },
   };
 }
