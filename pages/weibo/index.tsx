@@ -4,11 +4,7 @@ import Link from "next/link";
 import { List, NoticeBar } from "antd-mobile";
 import { UnorderedListOutline } from "antd-mobile-icons";
 
-const Weibo: NextPage<{ data: any }> = ({
-  data = {
-    newslist: [],
-  },
-}) => {
+const Weibo: NextPage<{ data: any }> = ({ data = [] }) => {
   return (
     <div>
       <Head>
@@ -17,11 +13,10 @@ const Weibo: NextPage<{ data: any }> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <NoticeBar content={data[0]?.content} color="info" />
+
       <main>
-        <List
-          header={
-            <NoticeBar content={data.newslist[0]?.content} color="info" />
-          }>
+        <List>
           <List.Item prefix={<UnorderedListOutline />}>
             <Link href={`/weibo/2492465520`} as={`/weibo/2492465520`}>
               <a>恶魔奶爸</a>
@@ -41,10 +36,14 @@ export async function getStaticProps() {
     }
   );
   const data = await res.json();
+  let result: any[] = [];
+  if (data.code === 200) {
+    result = data.newslist;
+  }
 
   return {
     props: {
-      data,
+      data: result,
     },
   };
 }
