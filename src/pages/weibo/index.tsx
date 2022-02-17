@@ -30,10 +30,7 @@ const Weibo: NextPage<{ data: any }> = ({ data = [] }) => {
 
 export async function getStaticProps() {
   const res = await fetch(
-    `http://api.tianapi.com/tiangou/index?key=80e4fa9d0221495137dfd51e1bb0db98`,
-    {
-      method: "GET",
-    }
+    `http://api.tianapi.com/tiangou/index?key=${process.env.TIANXING_KEY}`
   );
   const data = await res.json();
 

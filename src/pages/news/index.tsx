@@ -84,10 +84,7 @@ export async function getStaticProps() {
   const newsData = await newsRes.json();
 
   const jokeRes = await fetch(
-    `http://api.tianapi.com/joke/index?key=80e4fa9d0221495137dfd51e1bb0db98`,
-    {
-      method: "GET",
-    }
+    `http://api.tianapi.com/joke/index?key=${process.env.TIANXING_KEY}`
   );
   const jokeData = await jokeRes.json();
 

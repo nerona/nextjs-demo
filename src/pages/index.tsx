@@ -45,7 +45,7 @@ const Home: NextPage<{ data: any; photo: string }> = ({ data = [], photo }) => {
 
 export async function getStaticProps() {
   const res = await fetch(
-    `http://api.tianapi.com/saylove/index?key=80e4fa9d0221495137dfd51e1bb0db98&num=10`
+    `http://api.tianapi.com/saylove/index?key=${process.env.TIANXING_KEY}&num=10`
   );
   const data = await res.json();
 

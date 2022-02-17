@@ -13,6 +13,20 @@ const nextConfig = {
   images: {
     domains: ["cn.bing.com"],
   },
+  webpack: (config) => {
+    config.resolve.alias["@"] = path.resolve(__dirname, "./src");
+
+    return config;
+  },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = withTM(withImages(nextConfig));
