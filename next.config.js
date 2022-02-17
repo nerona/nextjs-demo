@@ -18,15 +18,6 @@ const nextConfig = {
 
     return config;
   },
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/",
-        permanent: true,
-      },
-    ];
-  },
 };
 
 module.exports = withTM(withImages(nextConfig));
