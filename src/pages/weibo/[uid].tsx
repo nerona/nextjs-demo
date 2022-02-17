@@ -1,16 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { List, NoticeBar } from "antd-mobile";
 import { UnorderedListOutline } from "antd-mobile-icons";
 
-const Weibo: NextPage<{ data: any; list: any }> = ({
-  data = [],
+const Weibo: NextPage<{ wenan: any; list: any }> = ({
+  wenan = [],
   list = [],
 }) => {
-  const router = useRouter();
-  console.log(router);
-
   return (
     <div>
       <Head>
@@ -19,7 +15,7 @@ const Weibo: NextPage<{ data: any; list: any }> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <NoticeBar content={data[0]?.content} color="info" />
+      <NoticeBar content={wenan[0]?.content} color="info" />
 
       <main>
         <List>
@@ -34,17 +30,15 @@ const Weibo: NextPage<{ data: any; list: any }> = ({
   );
 };
 
-export async function getStaticProps({ params }: any) {
-  const res = await fetch(
-    `http://api.tianapi.com/pyqwenan/index?key=${process.env.TIANXING_KEY}`
-  );
-  const data = await res.json();
-
+export async function getStaticProps() {
   // https://weibo.com/ajax/statuses/mymblog?uid=2492465520&page=1&feature=0
+  const txKey = process.env.TIANXING_KEY;
+  const res = await fetch(`http://api.tianapi.com/pyqwenan/index?key=${txKey}`);
+  const data = await res.json();
 
   return {
     props: {
-      data: data?.newslist || [],
+      wenan: data?.newslist || [],
       list: [],
     },
   };
